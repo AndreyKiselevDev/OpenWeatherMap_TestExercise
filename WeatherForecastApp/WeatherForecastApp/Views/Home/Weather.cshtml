@@ -1,0 +1,105 @@
+﻿@{
+    ViewData["Title"] = "Weather";
+}
+<link href='https://fonts.googleapis.com/css?family=Kalam' rel='stylesheet'>
+
+<div id="main">
+
+
+    <div class="input-group justify-content-center" id="searchform">
+
+        <input v-on:keyup.enter="getWeatherForCity()" placeholder="Your city" v-model="cityName" type="text" class="form-control searchinput" aria-label="Default" aria-describedby="inputGroup-sizing-default">
+        
+        <div class="input-group-append">
+            <button v-on:click="getWeatherForCity()" class="btn btn-secondary searchbutton" id="searchbutton">Search</button>
+        </div>
+
+    </div>
+
+
+
+
+
+
+    <div v-if="validCityName" id="weatherForecastBox">
+
+        <p id="forecastHeader">Forecast</p>
+
+        <div class="forecastItem" v-for="item in weatherForecast.Forecast">
+
+            <div class="forecastDataBox">
+                <span class="forecastDate" v-if="item.Time==='00:00'">{{getDate(item.Date)}}</span>
+            </div>
+
+
+            <img class="weatherIcon" :src="'http://openweathermap.org/img/w/' + item.WeatherIcon + '.png'" />
+
+            <div class="forecastMainInfo">
+                <p class="forecastTime">
+                    {{item.Temperature}}°С - {{item.Time}} - {{item.WeatherStatus}}
+                </p>
+
+
+                <p class="forecastWindSpeed">Wind: {{item.WindSpeed}}m/s</p>
+
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+
+
+
+
+    <div v-if="validCityName" id="currentWeatherBox">
+        <div id="cityInformationBox">
+
+            <p id="cityName">
+                {{currentWeather.City}}, {{currentWeather.Country}}
+            </p>
+
+            <p id="date">{{getCurrentDate()}}</p>
+
+
+
+            <span class="badge badge-default">Now</span>
+            <div id="currentWeatherCondition">
+
+                <img id="weatherIcon" class="weatherIcon" :src="'http://openweathermap.org/img/w/' + currentWeather.WeatherIcon + '.png'" />
+
+                <div id="maininfo">
+                    <p id="temperatureAndStatus">{{currentWeather.Temperature}}°С - <span>{{currentWeather.WeatherStatus}}</span></p>
+
+                    <p id="windSpeed">Wind: {{currentWeather.WindSpeed}}m/s</p>
+                </div>
+
+            </div>
+
+
+
+            <span class="badge badge-default">Today</span>
+            <div id="todaysTemperature">
+
+                <p>Maximal {{currentWeather.MaximalTemperature}}°С</p>
+
+                <p>Minimal {{currentWeather.MinimalTemperature}}°С</p>
+
+            </div>
+
+            <p id="time">Time - {{getCurrentTime}}</p>
+
+        </div>
+
+    </div>
+
+
+
+    <div v-else id="notfound">
+        Nothing found by this searching
+    </div>
+
+
+</div>
